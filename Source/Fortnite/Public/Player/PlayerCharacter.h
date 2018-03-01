@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+
 UCLASS()
 class FORTNITE_API APlayerCharacter : public ACharacter
 {
@@ -16,6 +19,14 @@ public:
 	APlayerCharacter();
 
 protected:
+	// Spring Arm that allows for an over-the-shoulder view
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	USpringArmComponent* CameraSpringArm;
+
+	// Camera that uses an over-the-shoulder view
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	UCameraComponent* FollowCamera;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -24,6 +35,11 @@ protected:
 
 	// Called for right and left movement
 	void MoveRight(float Scale);
+
+	bool bIsPlayerCrouched;
+
+	// Called for crouching and uncrouching the player
+	void ToggleCrouch();
 
 public:	
 	// Called every frame
